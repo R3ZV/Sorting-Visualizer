@@ -8,26 +8,23 @@
 
 class SortMethods {
     private:
-        const int length = 48;
-        const int blockWidth = 20;
+        const int length = 1200/5;
+        const int blockWidth = 5;
         const int blockHeigt = 50;
-        const int blockX = 50;
+        const int blockX = 0;
         const int blockY = 0;
-        const int gap = 3;
         bool isDrawing = false;
         std::vector<int> blocks_value;
-        std::vector<int> colors;
+        std::vector<Color> colors;
         Color block_color = GRAY;
-        int random_number();
         void fill_random_blocks();
-        Sound sortSound = LoadSound("../sounds/sort.wav");
 
     public:
         SortMethods();
         void unloadSounds();
         int getLength();
         bool getIsDrawing();
-        void drawBlocks();
+        void drawBlocks(bool begin);
         std::vector<int> getBlocks();
         void shuffleBlocks();
         void BubleSort();
