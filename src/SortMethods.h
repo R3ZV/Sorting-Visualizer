@@ -1,33 +1,34 @@
 #pragma once
 #include "raylib.h"
+#include <algorithm>
+#include <chrono>
 #include <iostream>
 #include <random>
 #include <vector>
-#include <chrono>
-#include <algorithm>
 
 class SortMethods {
-    private:
-        const int length = 1200/5;
-        const int blockWidth = 5;
-        const int blockHeigt = 50;
-        const int blockX = 0;
-        const int blockY = 0;
-        bool isDrawing = false;
-        std::vector<int> blocks_value;
-        std::vector<Color> colors;
-        Color block_color = GRAY;
-        void fill_random_blocks();
+private:
+  const int screenWidth = 1200;
+  const int screenHeight = 1000;
+  const int blockWidth = 1;
+  const int length = screenWidth / blockWidth;
+  const int blockX = 0;
+  const int blockY = 0;
+  bool isDrawing = false;
+  std::vector<int> blocks_value;
+  std::vector<Color> colors;
+  void fill_random_blocks();
 
-    public:
-        SortMethods();
-        void unloadSounds();
-        int getLength();
-        bool getIsDrawing();
-        void drawBlocks(bool begin);
-        std::vector<int> getBlocks();
-        void shuffleBlocks();
-        void BubleSort();
-        void MergeSort(int leftPointer, int rightPointer);
-        void debug();
+public:
+  SortMethods();
+  // Getters
+  bool getIsDrawing();
+  int getScreenWidth();
+  int getScreenHeight();
+
+  // Utilities
+  void drawBlocks(bool begin);
+  void shuffleBlocks();
+  void BubleSort();
+  void debug();
 };
