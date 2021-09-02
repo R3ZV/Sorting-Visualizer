@@ -4,19 +4,16 @@ SortMethods::SortMethods() {
     fill_random_blocks();
 }
 void SortMethods::BubleSort() {
-    for(int i = 0; i < length; ++i) {
-        for(int j = i+1; j < length; ++j) {
-            if(blocks_value[i] > blocks_value[j]) {
-                std::swap(blocks_value[i], blocks_value[j]);
-                isDrawing = true;
+    if(!is_sorted(blocks_value.begin(), blocks_value.end())) {
+        for(int i=0; i<length; ++i) {
+            if(blocks_value[i+1]<blocks_value[i]) {
+                colors[i+1] = colors[i] = RED;
+                std::swap(blocks_value[i+1], blocks_value[i]);
             }
-        }
-        if(isDrawing) {
-            PlaySound(sortSound);
-            drawBlocks();
-            isDrawing = false;
+            else colors[i+1] = colors[i] = WHITE;
         }
     }
+    else for(int i=0; i<length; ++i) colors[i] = GREEN, isDrawing = true;
 }
 
 void SortMethods::shuffleBlocks() {
@@ -24,48 +21,15 @@ void SortMethods::shuffleBlocks() {
     shuffle(blocks_value.begin(), blocks_value.end(), std::default_random_engine(seed));
 }
 
-void SortMethods::MergeSort(int leftPointer, int rightPointer) {
-    if(leftPointer + 1 < rightPointer) {
-        int midPointer = (leftPointer + rightPointer) / 2;
-        MergeSort(leftPointer, midPointer);
-        MergeSort(midPointer, rightPointer);
-
-        //// Merge the two arrays
-        int left_index = leftPointer, right_index = midPointer;
-        std::vector<int> changedBlocks;
-        while(left_index < midPointer || right_index < rightPointer) {
-            isDrawing = true;
-            if(right_index == rightPointer || (left_index < midPointer && blocks_value[left_index] < blocks_value[right_index]))
-                changedBlocks.push_back(blocks_value[left_index++]);
-            else
-                changedBlocks.push_back(blocks_value[right_index++]);
-        }
-        for(left_index = leftPointer, right_index=0; left_index<rightPointer; ++left_index, ++right_index)
-            blocks_value[left_index] = changedBlocks[right_index];
-    }
-    if(isDrawing) {
-        drawBlocks();
-        isDrawing = false;
-    }
-}
-
-void SortMethods::drawBlocks() {
-        BeginDrawing();
-            ClearBackground(RAYWHITE);
-            //DrawText("Sorting...", 450, 700, 30, GREEN);
-        EndDrawing();
-    for(int i = 0; i < length; ++i) {
-        BeginDrawing();
-            DrawRectangle(blockX + i*(blockWidth+gap), blockY, blockWidth, blockHeigt + blocks_value[i], RED);
-        EndDrawing();
-    }
+void SortMethods::drawBlocks(bool begin) {
+    ClearBackground(BLACK);
+    DrawText("Press SPACE to start", 330, 50, 30, WHITE);
+    if(begin)
+        for(int i=0; i<length; ++i)
+            DrawRectangle(blockX+i*blockWidth, 800-blocks_value[i], blockWidth, blocks_value[i], colors[i]);
 }
 
 // Generate a number between 1 and 100
-int SortMethods::random_number() {
-    return rand() % 300 + 1;
-}
-
 int SortMethods::getLength() {
     return length;
 }
@@ -80,8 +44,10 @@ bool SortMethods::getIsDrawing() {
 
 
 void SortMethods::fill_random_blocks() {
-    for(int i = 0; i < length; ++i)
-        blocks_value.push_back(random_number());
+    for(int i = 0; i < length; ++i) {
+        blocks_value.push_back(GetRandomValue(10, 700));
+        colors.push_back(WHITE);
+    }
 }
 
 void SortMethods::debug() {
@@ -91,5 +57,4 @@ void SortMethods::debug() {
 }
 
 void SortMethods::unloadSounds() {
-    UnloadSound(sortSound);
 }
