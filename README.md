@@ -1,12 +1,21 @@
 # Sorting Visualizer
 
-This is a small project where I learned more about Classes in C++ and played around with Raylib library.
+### Description
+The program allows you to choose from a series of sorting algorithms such as:
+    - [ ] Insertion sort
+    - [ ] Bubble sort
+    - [ ] more
 
-It is a simple implementation of Buble Sort Algorithm.
+After choosing a sorting algorithm the program will shuffle the values using the
+Fisher-Yates algorithm.
 
-To play around with my code you need:
+### Controls
+You can press "Space" to start the sorting.
+You can control the sorting speed with the arrow keys. Left arrow key decreases
+the speed and the right arrow key increases the speed.
 
-- Raylib
-- C++ 11 or higher
+Prerequisites:
+    - Raylib
+    - GCC
 
-The build shell script is ment for Linux users, for Windows you can compile it by hand.
+The build shell script is ment for Linux users (might also work on OSX).
