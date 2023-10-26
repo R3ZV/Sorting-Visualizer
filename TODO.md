@@ -1,0 +1,13 @@
+# TODO
+- [X] press R to reshuffle the blocks
+- [X] press SPACE to start the sorting
+- [ ] add borders
+- [ ] add shortcuts to choose witch sorting algorithm to use(1 - insertion, 2 - bubble etc.)
+- [ ] add speed text
+- [X] change the sorting speed (LEFT / RIGHT arrow)
+- [X] implement a pair
+- [X] implement a queue
+- [ ] move queue / pair into its own file
+- [X] implement insertion sort
+- [X] implement bubble sort
+- [ ] add a button for shortcuts
