@@ -8,7 +8,6 @@
 #define WIN_WIDTH 1000
 #define WIN_HEIGHT 800
 #define BLOCK_WIDTH 20
-
 // =============== QUEUE =============
 typedef struct Pair {
 	int first;
@@ -55,50 +54,88 @@ void Queue_init(Queue *q) {
 }
 // =============== QUEUE =============
 
-void Swap(int *x, int *y) {
-	if (*x == *y) {
-		return;
+
+typedef struct Block {
+    int x, y;
+    int height;
+    int width;
+    Color color;
+} Block;
+
+void BlockDraw(Block block) {
+    DrawRectangle(block.x, block.y, block.width, block.height, block.color);
+
+    // Borders
+    const Color BORDER_COLOR = WHITE;
+    int x1 = block.x, y1 = block.y + block.height;
+    DrawLine(block.x, block.y, x1, y1, BORDER_COLOR);
+    int x2 = block.x + block.width, y2 = y1;
+    DrawLine(x1, y1, x2, y2, BORDER_COLOR);
+    int x3 = x2, y3 = y2 - block.height;
+    DrawLine(x2, y2, x3, y3, BORDER_COLOR);
+    DrawLine(x3, y3, block.x, block.y, BORDER_COLOR);
+}
+
+void DebugBlock(Block b) {
+    printf("BLOCK INFO: x=%d, y=%d, width=%d, height=%d\n", b.x, b.y, b.width, b.height);
+}
+
+void DebugBlocks(int len , Block blocks[]) {
+	for (int i = 0; i < len; ++i) {
+        DebugBlock(blocks[i]);
 	}
-	*x = *x ^ *y;
-	*y = *x ^ *y;
-	*x = *x ^ *y;
+}
+
+void IntSwap(int *a, int *b) {
+    if (*a == *b) {
+        return;
+    }
+    *a = *a ^ *b;
+    *b = *a ^ *b;
+    *a = *a ^ *b;
+}
+
+void BlockSwap(Block *x, Block *y) {
+    IntSwap(&x->y, &y->y);
+    IntSwap(&x->height, &y->height);
 }
 
 // Fisher-Yates shuffle algorithm
-void Shuffle(int len, int values[]) {
+void BlockShuffle(int len, Block blocks[]) {
 	for (int i = len - 1; i > 0; i--) {
 		int j = rand() % (i + 1);
-		Swap(&values[i], &values[j]);
+		BlockSwap(&blocks[i], &blocks[j]);
 	}
 }
 
-void init(int len, int values[]) {
+const int HEIGHT_MULTIPLIER = 12;
+void init(int len, Block blocks[]) {
 	InitWindow(WIN_WIDTH, WIN_HEIGHT, "Sorting Visualizer");
 	SetTargetFPS(60);
 	for (int i = 0; i < len; ++i) {
-		values[i] = i + 1;
+        int x = i * BLOCK_WIDTH;
+        int y = WIN_HEIGHT - (i + 1) * HEIGHT_MULTIPLIER;
+
+        blocks[i].x = x;
+        blocks[i].y = y;
+        blocks[i].width = BLOCK_WIDTH;
+        blocks[i].height = (i + 1) * HEIGHT_MULTIPLIER;
+        blocks[i].color = BLUE;
 	}
-	Shuffle(len, values);
+	BlockShuffle(len, blocks);
 }
 
-void DebugArray(int len , int values[]) {
+void InsertionSort(int len, Block blocks[], Queue *q) {
 	for (int i = 0; i < len; ++i) {
-		printf("%d ", values[i]);
-	}
-	printf("\n");
-}
-
-void InsertionSort(int len, int values[], Queue *q) {
-	for (int i = 0; i < len; ++i) {
-		int mn = len + 2, idx = -1;
+		int mn = (len + 1) * HEIGHT_MULTIPLIER, idx = -1;
 		for (int j = i; j < len; ++j) {
-			if (values[j] < mn) {
-				mn = values[j];
+			if (blocks[j].height < mn) {
+				mn = blocks[j].height;
 				idx = j;
 			}
 		}
 		if (idx != -1) {
-			Swap(&values[i], &values[idx]);
+			BlockSwap(&blocks[i], &blocks[idx]);
 			Pair p;
 			p.first = i;
 			p.second = idx;
@@ -107,14 +144,13 @@ void InsertionSort(int len, int values[], Queue *q) {
 	}
 }
 
-void BubbleSort(int len, int values[], Queue *q) {
+void BubbleSort(int len, Block blocks[], Queue *q) {
 	for (int i = 0; i < len; ++i) {
 		for (int j = i + 1; j < len; ++j) {
-			if (values[j] < values[i]) {
-				Swap(&values[j], &values[i]);
-				Pair p;
-				p.first = i;
-				p.second = j;
+			if (blocks[j].height < blocks[i].height) {
+				BlockSwap(&blocks[j], &blocks[i]);
+				Pair p = { .first = i, .second = j};
+                printf("Swapping i=%d with j=%d\n", i, j);
 				Queue_push(q, p);
 			}
 		}
@@ -128,22 +164,13 @@ long long elapsed_ms(struct timeval *t1, struct timeval *t2) {
 }
 
 int main(void) {
-	const int BLOCKS = WIN_WIDTH / BLOCK_WIDTH;
-	const float HEIGHT_MULTIPLIER = 12;
+	const int BLOCK_LEN = WIN_WIDTH / BLOCK_WIDTH;
 	const int BASE_SPEED = 1000;
 	const int SORTING_SPEED = 100;
 
-	int values[BLOCKS];
-	init(BLOCKS, values);
-
-	int aux[BLOCKS];
-	for (int i = 0; i < BLOCKS; ++i) {
-		aux[i] = values[i];
-	}
-
-	Queue q;
-	Queue_init(&q);
-
+    Block blocks[BLOCK_LEN];
+	Block aux[BLOCK_LEN];
+	init(BLOCK_LEN, blocks);
 
 	struct timeval starting_time;
 	gettimeofday(&starting_time, NULL);
@@ -151,44 +178,55 @@ int main(void) {
 	bool sorting = false;
 	int speed_changer = 0;
 
+	Queue q;
+	Queue_init(&q);
+    Pair last = {.first = 0, .second = 0};
+
 	while (!WindowShouldClose()) {
 		// Sorter Controls
-		if (!sorting && IsKeyPressed(KEY_R)) {
-			Shuffle(BLOCKS, values);
-		}
-		if (sorting && IsKeyPressed(KEY_LEFT) && speed_changer > 0) {
-			speed_changer--;
-		}
-		if (sorting && IsKeyPressed(KEY_RIGHT) && speed_changer < BASE_SPEED / SORTING_SPEED) {
-			speed_changer++;
-		}
-		if (!sorting && IsKeyPressed(KEY_SPACE)) {
-			sorting = true;
-			BubbleSort(BLOCKS, aux, &q);
-			/* InsertionSort(BLOCKS, aux, &q); */
-		}
+        if (!sorting && IsKeyPressed(KEY_R)) {
+            BlockShuffle(BLOCK_LEN, blocks);
+        }
+        if (sorting && IsKeyPressed(KEY_LEFT) && speed_changer > 0) {
+            speed_changer--;
+        }
+        if (sorting && IsKeyPressed(KEY_RIGHT) && speed_changer < BASE_SPEED / SORTING_SPEED) {
+            speed_changer++;
+        }
+        if (!sorting && IsKeyPressed(KEY_SPACE)) {
+            for (int i = 0; i < BLOCK_LEN; ++i) {
+                aux[i] = blocks[i];
+            }
+            sorting = true;
+            BubbleSort(BLOCK_LEN, aux, &q);
+            // InsertionSort(BLOCK_LEN, aux, &q);
+        }
 
-		struct timeval current_time;
-		gettimeofday(&current_time, NULL);
-		long long elapsed = elapsed_ms(&current_time, &starting_time);
+        struct timeval current_time;
+        gettimeofday(&current_time, NULL);
+        long long elapsed = elapsed_ms(&current_time, &starting_time);
 
-		// Update blocks
-		if (!Queue_is_empty(&q) && elapsed > BASE_SPEED - speed_changer * SORTING_SPEED) {
-			starting_time = current_time;
-			Pair tp = Queue_top(&q);
-			Queue_pop(&q);
-			Swap(&values[tp.first], &values[tp.second]);
-		}
-		if (Queue_is_empty(&q)) {
-			sorting = false;
-		}
+        // Update blocks
+        if (!Queue_is_empty(&q) && elapsed > BASE_SPEED - speed_changer * SORTING_SPEED) {
+            blocks[last.first].color = BLUE;
+            blocks[last.second].color = BLUE;
+            starting_time = current_time;
+            Pair tp = Queue_top(&q);
+            Queue_pop(&q);
 
+            blocks[tp.first].color = RED;
+            blocks[tp.second].color = RED;
+
+            BlockSwap(&blocks[tp.first], &blocks[tp.second]);
+            last = tp;
+        }
+        if (Queue_is_empty(&q)) {
+            sorting = false;
+        }
 		// Base canvas
 		BeginDrawing();
-		for (int i = 0; i < BLOCKS; ++i) {
-			int x0 = i * BLOCK_WIDTH;
-			int y0 = WIN_HEIGHT - values[i] * HEIGHT_MULTIPLIER;
-			DrawRectangle(x0, y0, BLOCK_WIDTH, values[i] * HEIGHT_MULTIPLIER, BLUE);
+		for (int i = 0; i < BLOCK_LEN; ++i) {
+            BlockDraw(blocks[i]);
 		}
 		ClearBackground(BLACK);
 		EndDrawing();
