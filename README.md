@@ -2,8 +2,11 @@
 
 ### Description
 The program allows you to choose from a series of sorting algorithms such as:
+
     - [ ] Insertion sort
+
     - [ ] Bubble sort
+
     - [ ] more
 
 After choosing a sorting algorithm the program will shuffle the values using the

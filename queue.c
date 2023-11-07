@@ -2,23 +2,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-typedef struct Pair {
-	int first;
-	int second;
-} Pair;
-
-#define MAX_SZ 50000
-typedef struct Queue {
-	int top, bottom;
-	Pair queue[MAX_SZ];
-} Queue;
-
-void Queue_push(Queue *q, Pair p) {
+void Queue_push(Queue *q, BlockCheck p) {
 	if (q->bottom >= MAX_SZ) {
 		return;
 	}
 	q->queue[++q->bottom] = p;
-	printf("New value at pos: %d\n", q->bottom);
 }
 
 bool Queue_is_empty(Queue *q) {
@@ -26,15 +14,15 @@ bool Queue_is_empty(Queue *q) {
 }
 
 void Queue_pop(Queue *q) {
-	if (empty(q)) {
+	if (Queue_is_empty(q)) {
 		return;
 	}
 	q->top++;
 }
 
-Pair Queue_top(Queue *q) {
-	if (empty(q)) {
-		Pair p;
+BlockCheck Queue_top(Queue *q) {
+	if (Queue_is_empty(q)) {
+		BlockCheck p;
 		p.first = -1;
 		p.second = -1;
 		return p;

@@ -4,20 +4,24 @@
 #include<stdbool.h>
 #define MAX_SZ 50000
 
-typedef struct Pair {
+#define BLOCK_SWAP 0
+#define BLOCK_CHECK 1
+
+typedef struct _BlockCheck {
 	int first;
 	int second;
-} Pair;
+    int type;
+} BlockCheck;
 
-typedef struct Queue {
+typedef struct _Queue {
 	int top, bottom;
-	Pair queue[MAX_SZ];
+	BlockCheck queue[MAX_SZ];
 } Queue;
 
-void Queue_push(Queue *q, Pair p);
+void Queue_push(Queue *q, BlockCheck p);
 bool Queue_is_empty(Queue *q);
 void Queue_pop(Queue *q);
-Pair Queue_top(Queue *q);
+BlockCheck Queue_top(Queue *q);
 void Queue_init(Queue *q);
 
 #endif // QUEUE_H
