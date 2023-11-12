@@ -6,10 +6,11 @@
 #include "raylib.h"
 #include "queue.h"
 
-#define WIN_WIDTH 1000
+#define WIN_WIDTH 1280
+// #define WIN_WIDTH 1000
 #define WIN_HEIGHT 800
 #define BLOCK_WIDTH 20
-#define HEIGHT_MULTIPLIER 15
+#define HEIGHT_MULTIPLIER 10
 
 typedef struct Block {
     int x, y;
@@ -71,7 +72,8 @@ void BlockShuffle(int len, Block blocks[]) {
 	}
 }
 
-void init(int len, Block blocks[]) { InitWindow(WIN_WIDTH, WIN_HEIGHT, "Sorting Visualizer");
+void init(int len, Block blocks[]) {
+    InitWindow(WIN_WIDTH, WIN_HEIGHT, "Sorting Visualizer");
 	SetTargetFPS(60);
 	for (int i = 0; i < len; ++i) {
         int x = i * BLOCK_WIDTH;
@@ -124,23 +126,16 @@ void BubbleSort(int len, Block blocks[], Queue *q) {
 
 // TODO
 void MergeSort(int left, int right, Block blocks[], Queue *q) {
-    if (left > right) return;
-    if (left == right) {
-        BlockCheck p = { .first = blocks[left].id, .second = blocks[left].id, .type = BLOCK_SWAP};
-        Queue_push(q, p);
-        return;
-    }
+    if (left >= right) return;
 
     int middle = (left + right) / 2;
     MergeSort(left, middle, blocks, q);
     MergeSort(middle + 1, right, blocks, q);
 
     int P1 = left, P2 = middle + 1;
-    Block aux[WIN_WIDTH / BLOCK_WIDTH];
+    Block aux[WIN_WIDTH / BLOCK_WIDTH + 10];
     int len = 0;
     while (P1 <= middle && P2 <= right) {
-        // Pair p = { .first = blocks[P1].id, .second = blocks[P2].id };
-        // Queue_push(q, p);
         if (blocks[P1].height < blocks[P2].height) {
             aux[len++] = blocks[P1++];
         } else {
@@ -156,9 +151,10 @@ void MergeSort(int left, int right, Block blocks[], Queue *q) {
     }
 
     for (int i = left, j = 0; i <= right; ++i, ++j) {
-        BlockCheck p = { .first = blocks[i].id, .second = aux[j].id, .type = BLOCK_SWAP };
+        BlockCheck p = { .first = blocks[i].id, .second = j, .type = BLOCK_REMAP };
         Queue_push(q, p);
-        blocks[i] = aux[j];
+        blocks[i].height = aux[j].height;
+        blocks[i].y = aux[j].y;
     }
 }
 
@@ -205,9 +201,9 @@ int main(void) {
                 aux[i] = blocks[i];
             }
             sorting = true;
-            BubbleSort(BLOCK_LEN, aux, &q);
+            // BubbleSort(BLOCK_LEN, aux, &q);
             // InsertionSort(BLOCK_LEN, aux, &q);
-            // MergeSort(0, BLOCK_LEN - 1, aux, &q);
+            MergeSort(0, BLOCK_LEN - 1, aux, &q);
         }
 
         struct timeval current_time;
@@ -228,6 +224,11 @@ int main(void) {
             } else if (tp.type == BLOCK_CHECK) {
                 blocks[tp.first].color = ORANGE;
                 blocks[tp.second].color = ORANGE;
+            } else if (tp.type == BLOCK_REMAP) {
+                blocks[tp.first].height = aux[tp.second].height;
+                blocks[tp.first].y = aux[tp.second].y;
+                blocks[tp.first].color = PINK;
+                blocks[tp.second].color = PINK;
             }
 
             last = tp;
@@ -237,7 +238,6 @@ int main(void) {
             for (int i = 0; i < BLOCK_LEN; ++i) {
                 blocks[i].color = LIME;
                 blocks[i].border_color = WHITE;
-
             }
         }
 		// Base canvas
@@ -249,6 +249,7 @@ int main(void) {
 		}
 		ClearBackground(BLACK);
 		EndDrawing();
+        DebugBlocks(BLOCK_LEN, aux);
 	}
 
 	CloseWindow();

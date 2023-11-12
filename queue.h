@@ -6,6 +6,7 @@
 
 #define BLOCK_SWAP 0
 #define BLOCK_CHECK 1
+#define BLOCK_REMAP 2
 
 typedef struct _BlockCheck {
 	int first;
