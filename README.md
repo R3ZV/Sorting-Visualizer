@@ -4,10 +4,15 @@
 The program allows you to choose from a series of sorting algorithms such as:
 
     - [ ] Insertion sort
-
-    - [ ] Bubble sort
-
-    - [ ] more
+    - [ ] Selection sort
+    - [ ] Odd even sort
+    - [X] Gnome sort
+    - [ ] Cocktail shaker sort
+    - [X] Bubble sort
+    - [X] Bubble sort optimized
+    - [ ] Merge sort
+    - [ ] Quick sort
+    - [ ] Merge sort
 
 After choosing a sorting algorithm the program will shuffle the values using the
 Fisher-Yates algorithm.
@@ -22,3 +27,6 @@ Prerequisites:
     - GCC
 
 The build shell script is ment for Linux users (might also work on OSX).
+
+### References
+[Sorting Algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm)
