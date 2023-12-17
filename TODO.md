@@ -12,7 +12,7 @@
 - [X] implement bubble sort
 - [X] Maybe add deelay for comparing
 - [X] after sorting change color to something else
-- [ ] move the sorting algorithms into their own file
+- [X] move the sorting algorithms into their own file
 - [ ] Add sounds
 - [ ] Make a small clip for all algorithms
 - [ ] Add a way to choose the algorithm (either a starting menu with all algorithm

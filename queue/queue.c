@@ -1,5 +1,4 @@
 #include "queue.h"
-#include <stdio.h>
 #include <stdbool.h>
 
 void Queue_push(Queue *q, BlockCheck p) {

@@ -1,7 +1,8 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include<stdbool.h>
+#include <stdbool.h>
+#include "raylib.h"
 #define MAX_SZ 50000
 
 #define BLOCK_SWAP 0

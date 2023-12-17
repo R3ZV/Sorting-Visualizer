@@ -3,16 +3,22 @@
 ### Description
 The program allows you to choose from a series of sorting algorithms such as:
 
-    - [ ] Insertion sort
-    - [ ] Selection sort
-    - [ ] Odd even sort
-    - [X] Gnome sort
-    - [ ] Cocktail shaker sort
-    - [X] Bubble sort
-    - [X] Bubble sort optimized
-    - [ ] Merge sort
-    - [ ] Quick sort
-    - [ ] Merge sort
+- [X] Insertion sort
+- [X] Selection sort
+- [X] Odd even sort
+- [X] Gnome sort
+- [X] Cocktail shaker sort
+- [X] Cocktail shaker sort optimized
+- [X] Bubble sort
+- [X] Bubble sort optimized
+- [ ] Cube sort
+- [ ] Shell sort
+- [ ] Pancake sort
+- [ ] Cycle sort
+- [ ] Merge sort
+- [ ] Quick sort
+- [ ] Heap sort
+- [ ] Intro sort
 
 After choosing a sorting algorithm the program will shuffle the values using the
 Fisher-Yates algorithm.
