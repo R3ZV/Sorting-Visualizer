@@ -83,7 +83,7 @@ int main(void) {
                 aux[i] = blocks[i];
             }
             sorting = true;
-            BubbleSortVariation(BLOCK_LEN, aux, &q);
+            // BubbleSortVariation(BLOCK_LEN, aux, &q);
             // BubbleSort(BLOCK_LEN, aux, &q);
             // BubbleSortOpt(BLOCK_LEN, aux, &q);
             // GnomeSort(BLOCK_LEN, aux, &q);
@@ -91,7 +91,7 @@ int main(void) {
             // CocktailShakerSort(BLOCK_LEN, aux, &q);
             // CocktailShakerSortOpt(BLOCK_LEN, aux, &q);
             // InsertionSort(BLOCK_LEN, aux, &q);
-            // SelectionSort(BLOCK_LEN, aux, &q);
+            SelectionSort(BLOCK_LEN, aux, &q);
             // MergeSort(0, BLOCK_LEN - 1, aux, &q);
         }
 
@@ -138,7 +138,6 @@ int main(void) {
         DrawSortingSpeed(WIN_WIDTH - 300, 10, SORTING_SPEED);
 
         for (int i = 0; i < BLOCK_LEN; ++i) {
-            DebugBlock(blocks[i]);
             BlockDraw(blocks[i]);
         }
 

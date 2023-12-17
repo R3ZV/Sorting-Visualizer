@@ -3,8 +3,8 @@
 
 #include "raylib.h"
 
-#define BLOCK_WIDTH 20
-#define HEIGHT_MULTIPLIER 10
+#define BLOCK_WIDTH 16
+#define HEIGHT_MULTIPLIER 9
 
 typedef struct _Block {
     int x, y;
