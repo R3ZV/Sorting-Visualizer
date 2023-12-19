@@ -13,9 +13,13 @@
 - [X] Maybe add deelay for comparing
 - [X] after sorting change color to something else
 - [X] move the sorting algorithms into their own file
-- [ ] Add sounds
+- [X] Add sounds
+- [ ] Find a better sound
 - [ ] Make a small clip for all algorithms
-- [ ] Add a way to choose the algorithm (either a starting menu with all algorithm
+- [ ] Add a starting screen with all the keybinding
+- [ ] Add a screen with all the available sorting algorithms
+- [ ] Add Raylib locally
+
 or a CLI)
 ### BUGS
 - [X] change last block to it's original color

@@ -45,6 +45,10 @@ int main(void) {
     const int BASE_SPEED_MULTIPLIER = 18;
     const int SORTING_SPEED_MULTIPLIER = 13;
 
+    InitAudioDevice();
+    const Sound SORT_SOUND = LoadSound("./tone.wav");
+    SetSoundVolume(SORT_SOUND, 0.5);
+
     Block blocks[BLOCK_LEN];
     Block aux[BLOCK_LEN];
     init(BLOCK_LEN, blocks);
@@ -85,13 +89,13 @@ int main(void) {
             sorting = true;
             // BubbleSortVariation(BLOCK_LEN, aux, &q);
             // BubbleSort(BLOCK_LEN, aux, &q);
-            // BubbleSortOpt(BLOCK_LEN, aux, &q);
+            BubbleSortOpt(BLOCK_LEN, aux, &q);
             // GnomeSort(BLOCK_LEN, aux, &q);
             // OddEvenSort(BLOCK_LEN, aux, &q);
             // CocktailShakerSort(BLOCK_LEN, aux, &q);
             // CocktailShakerSortOpt(BLOCK_LEN, aux, &q);
             // InsertionSort(BLOCK_LEN, aux, &q);
-            SelectionSort(BLOCK_LEN, aux, &q);
+            // SelectionSort(BLOCK_LEN, aux, &q);
             // MergeSort(0, BLOCK_LEN - 1, aux, &q);
         }
 
@@ -112,6 +116,15 @@ int main(void) {
                 blocks[tp.second].color = RED;
                 BlockSwap(&blocks[tp.first], &blocks[tp.second]);
             } else if (tp.type == BLOCK_CHECK) {
+                int mx_height = blocks[tp.first].height;
+                if (blocks[tp.second].height > mx_height) {
+                    mx_height = blocks[tp.second].height;
+                }
+                if (IsAudioDeviceReady()) {
+                    SetSoundPitch(SORT_SOUND, mx_height / 400.0);
+                    PlaySound(SORT_SOUND);
+                }
+
                 blocks[tp.first].color = ORANGE;
                 blocks[tp.second].color = ORANGE;
             } else if (tp.type == BLOCK_REMAP) {
@@ -147,6 +160,8 @@ int main(void) {
         // DebugBlocks(BLOCK_LEN, aux);
     }
 
+    UnloadSound(SORT_SOUND);
+    CloseAudioDevice();
     CloseWindow();
 
     return 0;
