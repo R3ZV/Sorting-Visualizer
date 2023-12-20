@@ -4,6 +4,19 @@
 #include "../queue/queue.h"
 #include "../block/block.h"
 
+typedef enum SortAlgo {
+    SORTALGO_BUBBLE_VARIATION,
+    SORTALGO_BUBBLE,
+    SORTALGO_BUBBLE_OPT,
+    SORTALGO_GNOME,
+    SORTALGO_ODDEVEN,
+    SORTALGO_COCKTAILSHAKER,
+    SORTALGO_COCKTAILSHAKER_OPT,
+    SORTALGO_INSERTION,
+    SORTALGO_SELECTION,
+    SORTALGO_MERGE,
+} SortAlgo;
+
 void InsertionSort(int len, Block blocks[], Queue *q);
 void SelectionSort(int len, Block blocks[], Queue *q);
 void BubbleSortVariation(int len, Block blocks[], Queue *q);

@@ -35,6 +35,42 @@ long long elapsed_ns(struct timespec *end, struct timespec *start) {
     return (end -> tv_sec - start -> tv_sec) * 1000000000L + (end -> tv_nsec - start -> tv_nsec);
 }
 
+
+typedef enum GameState {
+    GAMESTATE_INFO,
+    GAMESTATE_SELECT,
+    GAMESTATE_SORTER
+} GameState;
+
+void CreateButton(Rectangle bounds, const int width, const int height, const char *text, const int font_size, Color text_color, Color btn_color) {
+    DrawRectangle(bounds.x, bounds.y, width, height, btn_color);
+    DrawText(text, bounds.x, bounds.y, font_size, text_color);
+}
+
+void DisplayInfo() {
+    int x = WIN_WIDTH / 2 - 40, y = 100;
+    int font_size = 30;
+    const int SPACEING = 70;
+
+    DrawText("INFO:", x, y, 2 * font_size, WHITE);
+    x -= 200;
+    y += 2 * SPACEING;
+
+    DrawText("Left Arrow - decrease sorting speed", x, y, font_size, WHITE);
+    y += SPACEING;
+
+    DrawText("Right Arrow - increase sorting speed", x, y, font_size, WHITE);
+    y += SPACEING;
+
+    DrawText("s - reshuffle the array", x, y, font_size, WHITE);
+    y += SPACEING;
+
+    DrawText("r - reset back to the sorting algorithms page", x, y, font_size, WHITE);
+    y += SPACEING;
+
+    DrawText("Space - start the algorithm", x, y, font_size, WHITE);
+}
+
 int main(void) {
     const int BLOCK_LEN = WIN_WIDTH / BLOCK_WIDTH;
 
@@ -61,103 +97,159 @@ int main(void) {
     Queue_init(&q);
     BlockCheck last = {.first = 0, .second = 0};
 
+    GameState curr_state = GAMESTATE_INFO;
+    SortAlgo selected_algo = SORTALGO_BUBBLE;
+
+    Vector2 mouse_point = { 0.0f, 0.0f };
+    Rectangle next_btn = {WIN_WIDTH / 2.0, WIN_HEIGHT - 100, WIN_WIDTH / 2.0 + 100, WIN_HEIGHT};
     while (!WindowShouldClose()) {
+        if (curr_state == GAMESTATE_INFO) {
+            mouse_point = GetMousePosition();
+            if (CheckCollisionPointRec(mouse_point, next_btn)) {
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                    curr_state = GAMESTATE_SELECT;
+                }
+            }
+
+            BeginDrawing();
+
+            DisplayInfo();
+            CreateButton(next_btn, 100, 50, "Next", 20, WHITE, RED);
+            ClearBackground(BLACK);
+
+            EndDrawing();
+        } else if (curr_state == GAMESTATE_SELECT) {
+
+            BeginDrawing();
+
+            DrawText("Select a sorting algorithm:", 100, 100, 40, WHITE);
+            ClearBackground(BLACK);
+
+            EndDrawing();
+
+        } else if (curr_state == GAMESTATE_SORTER) {
+            // Reshuffles the blocks
+            if (!sorting && IsKeyPressed(KEY_R)) {
+                BlockShuffle(BLOCK_LEN, blocks);
+                for (int i = 0; i < BLOCK_LEN; ++i) {
+                    blocks[i].color = BLUE;
+                    blocks[i].border_color = WHITE;
+                }
+            }
+
+            if (sorting && IsKeyPressed(KEY_RIGHT) && SORTING_SPEED - BASE_SPEED >= 0) {
+                SORTING_SPEED -= BASE_SPEED;
+            }
+
+            if (sorting && IsKeyPressed(KEY_LEFT) && SORTING_SPEED < BASE_SPEED_MULTIPLIER * BASE_SPEED) {
+                SORTING_SPEED += BASE_SPEED;
+            }
+
+            // Starts the sorting algorithm
+            if (!sorting && IsKeyPressed(KEY_SPACE)) {
+                for (int i = 0; i < BLOCK_LEN; ++i) {
+                    aux[i] = blocks[i];
+                }
+                sorting = true;
+                switch (selected_algo) {
+                    case SORTALGO_BUBBLE_VARIATION:
+                        BubbleSortVariation(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_BUBBLE:
+                        BubbleSort(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_BUBBLE_OPT:
+                        BubbleSortOpt(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_GNOME:
+                        GnomeSort(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_ODDEVEN:
+                        OddEvenSort(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_COCKTAILSHAKER:
+                        CocktailShakerSort(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_COCKTAILSHAKER_OPT:
+                        CocktailShakerSortOpt(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_INSERTION:
+                        InsertionSort(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_SELECTION:
+                        SelectionSort(BLOCK_LEN, aux, &q);
+                        break;
+                    case SORTALGO_MERGE:
+                        MergeSort(0, BLOCK_LEN - 1, aux, &q);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            struct timespec current_time;
+            clock_gettime(CLOCK_MONOTONIC, &current_time);
+
+            long long elapsed = elapsed_ns(&current_time, &starting_time);
+
+            // Update blocks
+            if (!Queue_is_empty(&q) && elapsed >= SORTING_SPEED_MULTIPLIER * SORTING_SPEED) {
+                blocks[last.first].color = BLUE;
+                blocks[last.second].color = BLUE;
+                starting_time = current_time;
+                BlockCheck tp = Queue_top(&q);
+                Queue_pop(&q);
+                if (tp.type == BLOCK_SWAP) {
+                    blocks[tp.first].color = RED;
+                    blocks[tp.second].color = RED;
+                    BlockSwap(&blocks[tp.first], &blocks[tp.second]);
+                } else if (tp.type == BLOCK_CHECK) {
+                    int mx_height = blocks[tp.first].height;
+                    if (blocks[tp.second].height > mx_height) {
+                        mx_height = blocks[tp.second].height;
+                    }
+                    if (IsAudioDeviceReady()) {
+                        SetSoundPitch(SORT_SOUND, mx_height / 400.0);
+                        PlaySound(SORT_SOUND);
+                    }
+
+                    blocks[tp.first].color = ORANGE;
+                    blocks[tp.second].color = ORANGE;
+                } else if (tp.type == BLOCK_REMAP) {
+                    blocks[tp.first].height = aux[tp.second].height;
+                    blocks[tp.first].y = aux[tp.second].y;
+                    blocks[tp.first].color = PINK;
+                    blocks[tp.second].color = PINK;
+                }
+
+                last = tp;
+            }
+            if (Queue_is_empty(&q) && sorting) {
+                sorting = false;
+                for (int i = 0; i < BLOCK_LEN; ++i) {
+                    blocks[i].color = LIME;
+                    blocks[i].border_color = WHITE;
+                }
+            }
+
+            // Draws the FPS, SortingSpeed and the blocks
+            BeginDrawing();
+
+            DrawFPS(10, 10);
+            DrawSortingSpeed(WIN_WIDTH - 300, 10, SORTING_SPEED);
+
+            for (int i = 0; i < BLOCK_LEN; ++i) {
+                BlockDraw(blocks[i]);
+            }
+
+            ClearBackground(BLACK);
+
+            EndDrawing();
+            // DebugBlocks(BLOCK_LEN, aux);
+
+        }
         // --- Sorter Controls ---
 
-        // Reshuffles the blocks
-        if (!sorting && IsKeyPressed(KEY_R)) {
-            BlockShuffle(BLOCK_LEN, blocks);
-            for (int i = 0; i < BLOCK_LEN; ++i) {
-                blocks[i].color = BLUE;
-                blocks[i].border_color = WHITE;
-            }
-        }
-
-        if (sorting && IsKeyPressed(KEY_RIGHT) && SORTING_SPEED - BASE_SPEED >= 0) {
-            SORTING_SPEED -= BASE_SPEED;
-        }
-
-        if (sorting && IsKeyPressed(KEY_LEFT) && SORTING_SPEED < BASE_SPEED_MULTIPLIER * BASE_SPEED) {
-            SORTING_SPEED += BASE_SPEED;
-        }
-
-        // Starts the sorting algorithm
-        if (!sorting && IsKeyPressed(KEY_SPACE)) {
-            for (int i = 0; i < BLOCK_LEN; ++i) {
-                aux[i] = blocks[i];
-            }
-            sorting = true;
-            // BubbleSortVariation(BLOCK_LEN, aux, &q);
-            // BubbleSort(BLOCK_LEN, aux, &q);
-            BubbleSortOpt(BLOCK_LEN, aux, &q);
-            // GnomeSort(BLOCK_LEN, aux, &q);
-            // OddEvenSort(BLOCK_LEN, aux, &q);
-            // CocktailShakerSort(BLOCK_LEN, aux, &q);
-            // CocktailShakerSortOpt(BLOCK_LEN, aux, &q);
-            // InsertionSort(BLOCK_LEN, aux, &q);
-            // SelectionSort(BLOCK_LEN, aux, &q);
-            // MergeSort(0, BLOCK_LEN - 1, aux, &q);
-        }
-
-        struct timespec current_time;
-        clock_gettime(CLOCK_MONOTONIC, &current_time);
-
-        long long elapsed = elapsed_ns(&current_time, &starting_time);
-
-        // Update blocks
-        if (!Queue_is_empty(&q) && elapsed >= SORTING_SPEED_MULTIPLIER * SORTING_SPEED) {
-            blocks[last.first].color = BLUE;
-            blocks[last.second].color = BLUE;
-            starting_time = current_time;
-            BlockCheck tp = Queue_top(&q);
-            Queue_pop(&q);
-            if (tp.type == BLOCK_SWAP) {
-                blocks[tp.first].color = RED;
-                blocks[tp.second].color = RED;
-                BlockSwap(&blocks[tp.first], &blocks[tp.second]);
-            } else if (tp.type == BLOCK_CHECK) {
-                int mx_height = blocks[tp.first].height;
-                if (blocks[tp.second].height > mx_height) {
-                    mx_height = blocks[tp.second].height;
-                }
-                if (IsAudioDeviceReady()) {
-                    SetSoundPitch(SORT_SOUND, mx_height / 400.0);
-                    PlaySound(SORT_SOUND);
-                }
-
-                blocks[tp.first].color = ORANGE;
-                blocks[tp.second].color = ORANGE;
-            } else if (tp.type == BLOCK_REMAP) {
-                blocks[tp.first].height = aux[tp.second].height;
-                blocks[tp.first].y = aux[tp.second].y;
-                blocks[tp.first].color = PINK;
-                blocks[tp.second].color = PINK;
-            }
-
-            last = tp;
-        }
-        if (Queue_is_empty(&q) && sorting) {
-            sorting = false;
-            for (int i = 0; i < BLOCK_LEN; ++i) {
-                blocks[i].color = LIME;
-                blocks[i].border_color = WHITE;
-            }
-        }
-
-        // Draws the FPS, SortingSpeed and the blocks
-        BeginDrawing();
-
-        DrawFPS(10, 10);
-        DrawSortingSpeed(WIN_WIDTH - 300, 10, SORTING_SPEED);
-
-        for (int i = 0; i < BLOCK_LEN; ++i) {
-            BlockDraw(blocks[i]);
-        }
-
-        ClearBackground(BLACK);
-
-        EndDrawing();
-        // DebugBlocks(BLOCK_LEN, aux);
     }
 
     UnloadSound(SORT_SOUND);

@@ -16,9 +16,10 @@
 - [X] Add sounds
 - [ ] Find a better sound
 - [ ] Make a small clip for all algorithms
-- [ ] Add a starting screen with all the keybinding
+- [X] Add a starting screen with all the keybinding
 - [ ] Add a screen with all the available sorting algorithms
 - [ ] Add Raylib locally
+- [ ] Create better buttons
 
 or a CLI)
 ### BUGS
