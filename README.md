@@ -1,39 +1,117 @@
-# Sorting Visualizer
+# Showcase
+The program allows you to choose from a series of sorting algorithms
+(open for showcase) such as:
 
-### Description
-The program allows you to choose from a series of sorting algorithms such as:
+<details>
+  <summary>Bubble Sort Variation</summary>
+  Add video
+</details>
 
-- [X] Insertion sort
-- [X] Selection sort
-- [X] Odd even sort
-- [X] Gnome sort
-- [X] Cocktail shaker sort
-- [X] Cocktail shaker sort optimized
-- [X] Bubble sort
-- [X] Bubble sort optimized
-- [ ] Cube sort
-- [ ] Shell sort
-- [ ] Pancake sort
-- [ ] Cycle sort
-- [ ] Merge sort
-- [ ] Quick sort
-- [ ] Heap sort
-- [ ] Intro sort
+<details>
+    <summary>Bubble Sort</summary>
+    Add video
+</details>
+
+<details>
+    <summary>Bubble Sort Optimized</summary>
+    Add video
+</details>
+
+<details>
+    <summary>Odd-Even Sort</summary>
+    Add video
+</details>
+
+<details>
+    <summary>Gnome Sort</summary>
+    Add video
+</details>
+
+<details>
+    <summary>CoctailShaker Sort</summary>
+    Add video
+</details>
+
+<details>
+    <summary>CoctailShaker Sort Optimized</summary>
+    Add video
+</details>
+
+<details>
+    <summary>Insertion Sort</summary>
+    Add video
+</details>
+
+<details>
+    <summary>Selection Sort</summary>
+    Add video
+</details>
+
+<details>
+    <summary>Cube Sort</summary>
+    TODO
+</details>
+
+<details>
+    <summary>Shell Sort</summary>
+    TODO
+</details>
+
+<details>
+    <summary>Pancake Sort</summary>
+    TODO
+</details>
+
+<details>
+    <summary>Cycle Sort</summary>
+    TODO
+</details>
+
+<details>
+    <summary>Merge Sort</summary>
+    TODO
+</details>
+
+<details>
+    <summary>Quick Sort</summary>
+    TODO
+</details>
+
+<details>
+    <summary>Heap Sort</summary>
+    TODO
+</details>
+
+<details>
+    <summary>Intro Sort</summary>
+    TODO
+</details>
 
 After choosing a sorting algorithm the program will shuffle the values using the
 Fisher-Yates algorithm.
 
-### Controls
-You can press "Space" to start the sorting.
-You can control the sorting speed with the arrow keys. Left arrow key decreases
-the speed and the right arrow key increases the speed.
+# Requirements
+- Git / GitHub CLI
+- GCC
+- Make
 
-Prerequisites:
-    - Raylib
-    - GCC
+To run it locally:
+```
+// using git with HTTPS
+git clone https://github.com/R3ZV/Sorting-Visualizer.git
 
-The build shell script is ment for Linux users (might also work on OSX).
+// using git with SSH
+git clone git@github.com:R3ZV/Sorting-Visualizer.git
 
-### References
+// usin GitHub CLI
+gh repo clone R3ZV/Sorting-Visualizer
+
+cd Sorting-Visualizer
+
+make
+```
+
+# References
 [Sorting Algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm)
+
 Sound from [here](https://sfxr.me/).

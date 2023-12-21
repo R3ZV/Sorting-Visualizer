@@ -42,9 +42,11 @@ typedef enum GameState {
     GAMESTATE_SORTER
 } GameState;
 
-void CreateButton(Rectangle bounds, const int width, const int height, const char *text, const int font_size, Color text_color, Color btn_color) {
-    DrawRectangle(bounds.x, bounds.y, width, height, btn_color);
-    DrawText(text, bounds.x, bounds.y, font_size, text_color);
+void CreateButton(Rectangle bounds, const char *text, const int font_size, Color text_color, Color btn_color) {
+    DrawRectangle(bounds.x, bounds.y, bounds.width, bounds.height, btn_color);
+    float text_x = bounds.x + font_size;
+    float text_y = bounds.y + font_size;
+    DrawText(text, text_x, text_y, font_size, text_color);
 }
 
 void DisplayInfo() {
@@ -82,7 +84,7 @@ int main(void) {
     const int SORTING_SPEED_MULTIPLIER = 13;
 
     InitAudioDevice();
-    const Sound SORT_SOUND = LoadSound("./tone.wav");
+    const Sound SORT_SOUND = LoadSound("./resources/tone.wav");
     SetSoundVolume(SORT_SOUND, 0.5);
 
     Block blocks[BLOCK_LEN];
@@ -101,7 +103,7 @@ int main(void) {
     SortAlgo selected_algo = SORTALGO_BUBBLE;
 
     Vector2 mouse_point = { 0.0f, 0.0f };
-    Rectangle next_btn = {WIN_WIDTH / 2.0, WIN_HEIGHT - 100, WIN_WIDTH / 2.0 + 100, WIN_HEIGHT};
+    Rectangle next_btn = {WIN_WIDTH / 2.0, WIN_HEIGHT - 100, 100, 50};
     while (!WindowShouldClose()) {
         if (curr_state == GAMESTATE_INFO) {
             mouse_point = GetMousePosition();
@@ -114,22 +116,35 @@ int main(void) {
             BeginDrawing();
 
             DisplayInfo();
-            CreateButton(next_btn, 100, 50, "Next", 20, WHITE, RED);
+            CreateButton(next_btn, "Next", 20, WHITE, BLUE);
             ClearBackground(BLACK);
 
             EndDrawing();
         } else if (curr_state == GAMESTATE_SELECT) {
 
+            for (int i = 0; i < AVAILABE_ALGORITHMS; ++i) {
+                if (CheckCollisionPointRec(mouse_point, ALGORITHMS_BTNS[i].bounds)) {
+                    selected_algo = i;
+                    curr_state = GAMESTATE_SORTER;
+                }
+            }
+
             BeginDrawing();
 
+
             DrawText("Select a sorting algorithm:", 100, 100, 40, WHITE);
+
+            for (int i = 0; i < AVAILABE_ALGORITHMS; ++i) {
+                CreateButton(ALGORITHMS_BTNS[i].bounds, ALGORITHMS_BTNS[i].name, 24, WHITE, BLUE);
+            }
+
             ClearBackground(BLACK);
 
             EndDrawing();
 
         } else if (curr_state == GAMESTATE_SORTER) {
             // Reshuffles the blocks
-            if (!sorting && IsKeyPressed(KEY_R)) {
+            if (!sorting && IsKeyPressed(KEY_S)) {
                 BlockShuffle(BLOCK_LEN, blocks);
                 for (int i = 0; i < BLOCK_LEN; ++i) {
                     blocks[i].color = BLUE;

@@ -1,6 +1,6 @@
 # TODO
 ### Features
-- [X] press R to reshuffle the blocks
+- [X] press S to reshuffle the blocks
 - [X] press SPACE to start the sorting
 - [X] add borders
 - [X] add speed text

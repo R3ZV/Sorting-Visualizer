@@ -15,17 +15,27 @@ typedef enum SortAlgo {
     SORTALGO_INSERTION,
     SORTALGO_SELECTION,
     SORTALGO_MERGE,
+    SORTALGO_NONE,
 } SortAlgo;
 
-void InsertionSort(int len, Block blocks[], Queue *q);
-void SelectionSort(int len, Block blocks[], Queue *q);
+typedef struct AlgorithmBtn {
+    Rectangle bounds;
+    const char *name;
+} AlgorithmBtn;
+
+
+const int AVAILABE_ALGORITHMS = SORTALGO_NONE;
+extern AlgorithmBtn ALGORITHMS_BTNS[AVAILABE_ALGORITHMS];
+
 void BubbleSortVariation(int len, Block blocks[], Queue *q);
 void BubbleSort(int len, Block blocks[], Queue *q);
+void BubbleSortOpt(int len, Block blocks[], Queue *q);
 void GnomeSort(int len, Block blocks[], Queue *q);
 void OddEvenSort(int len, Block blocks[], Queue *q);
 void CocktailShakerSort(int len, Block blocks[], Queue *q);
 void CocktailShakerSortOpt(int len, Block blocks[], Queue *q);
-void BubbleSortOpt(int len, Block blocks[], Queue *q);
+void InsertionSort(int len, Block blocks[], Queue *q);
+void SelectionSort(int len, Block blocks[], Queue *q);
 void MergeSort(int left, int right, Block blocks[], Queue *q);
 
 #endif // SORTERS_H

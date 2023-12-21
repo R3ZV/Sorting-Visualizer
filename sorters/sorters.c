@@ -1,5 +1,62 @@
 #include "sorters.h"
 
+#define ALGORITHM_BTN_WIDTH 200
+#define ALGORITHM_BTN_HEIGHT 50
+
+AlgorithmBtn ALGORITHMS_BTNS[] = {
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+        .name = "Bubble Var"
+    }
+};
+//     
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "Bubble"
+//     },
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "Bubble Opt"
+//     },
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "Gnome"
+//     },
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "OddEven"
+//     },
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "CocktailShaker"
+//     },
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "CocktailShaker Opt"
+//     },
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "Insertion"
+//     },
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "Selection"
+//     },
+//
+//     (AlgorithmBtn) {
+//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
+//         .name = "Merge"
+//     }
+// };
+
 void InsertionSort(int len, Block blocks[], Queue *q) {
     for (int i = 1; i < len; ++i) {
         Block a = blocks[i];
