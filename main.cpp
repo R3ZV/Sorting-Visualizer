@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 #include "raylib.h"
@@ -35,7 +36,6 @@ long long elapsed_ns(struct timespec *end, struct timespec *start) {
     return (end -> tv_sec - start -> tv_sec) * 1000000000L + (end -> tv_nsec - start -> tv_nsec);
 }
 
-
 typedef enum GameState {
     GAMESTATE_INFO,
     GAMESTATE_SELECT,
@@ -44,8 +44,8 @@ typedef enum GameState {
 
 void CreateButton(Rectangle bounds, const char *text, const int font_size, Color text_color, Color btn_color) {
     DrawRectangle(bounds.x, bounds.y, bounds.width, bounds.height, btn_color);
-    float text_x = bounds.x + font_size;
-    float text_y = bounds.y + font_size;
+    float text_x = bounds.x + bounds.width / 2.0 - (strlen(text) / 3.7) * font_size;
+    float text_y = bounds.y + (bounds.height - font_size) / 2.0;
     DrawText(text, text_x, text_y, font_size, text_color);
 }
 
@@ -122,10 +122,13 @@ int main(void) {
             EndDrawing();
         } else if (curr_state == GAMESTATE_SELECT) {
 
-            for (int i = 0; i < AVAILABE_ALGORITHMS; ++i) {
+            mouse_point = GetMousePosition();
+            for (int i = 0; i < AVAILABLE_ALGORITHMS; ++i) {
                 if (CheckCollisionPointRec(mouse_point, ALGORITHMS_BTNS[i].bounds)) {
-                    selected_algo = i;
-                    curr_state = GAMESTATE_SORTER;
+                    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                        selected_algo = ALGORITHMS_BTNS[i].type;
+                        curr_state = GAMESTATE_SORTER;
+                    }
                 }
             }
 
@@ -134,7 +137,7 @@ int main(void) {
 
             DrawText("Select a sorting algorithm:", 100, 100, 40, WHITE);
 
-            for (int i = 0; i < AVAILABE_ALGORITHMS; ++i) {
+            for (int i = 0; i < AVAILABLE_ALGORITHMS; ++i) {
                 CreateButton(ALGORITHMS_BTNS[i].bounds, ALGORITHMS_BTNS[i].name, 24, WHITE, BLUE);
             }
 

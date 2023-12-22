@@ -1,61 +1,135 @@
 #include "sorters.h"
 
-#define ALGORITHM_BTN_WIDTH 200
+#define ALGORITHM_BTN_WIDTH 270
 #define ALGORITHM_BTN_HEIGHT 50
 
-AlgorithmBtn ALGORITHMS_BTNS[] = {
+#define ALGORITHM_BTN_X 70
+#define ALGORITHM_BTN_Y 200
+#define ALGORITHM_BTN_XGAP 30
+#define ALGORITHM_BTN_YGAP 30
+
+AlgorithmBtn ALGORITHMS_BTNS[AVAILABLE_ALGORITHMS] = {
     (AlgorithmBtn) {
-        .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-        .name = "Bubble Var"
+        .bounds = (Rectangle) {
+            // ROW 1 COL 1
+            .x = ALGORITHM_BTN_X + 0 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 0 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "Bubble Var",
+        .type = SORTALGO_BUBBLE_VARIATION
+    },
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 1 COL 2
+            .x = ALGORITHM_BTN_X + 1 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 0 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "Bubble",
+        .type = SORTALGO_BUBBLE
+    },
+
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 1 COL 3
+            .x = ALGORITHM_BTN_X + 2 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 0 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "Bubble Opt",
+        .type = SORTALGO_BUBBLE_OPT
+    },
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 1 COL 4
+            .x = ALGORITHM_BTN_X + 3 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 0 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "Gnome",
+        .type = SORTALGO_GNOME
+    },
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 2 COL 1
+            .x = ALGORITHM_BTN_X + 0 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 1 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "OddEven",
+        .type = SORTALGO_ODDEVEN
+    },
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 2 COL 2
+            .x = ALGORITHM_BTN_X + 1 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 1 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "CocktailShaker",
+        .type = SORTALGO_COCKTAILSHAKER
+    },
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 2 COL 3
+            .x = ALGORITHM_BTN_X + 2 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 1 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "CocktailShaker Opt",
+        .type = SORTALGO_COCKTAILSHAKER_OPT
+    },
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 2 COL 4
+            .x = ALGORITHM_BTN_X + 3 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 1 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "Insertion",
+        .type = SORTALGO_INSERTION
+    },
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 3 COL 1
+            .x = ALGORITHM_BTN_X + 0 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 2 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "Selection",
+        .type = SORTALGO_SELECTION
+    },
+
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 3 COL 2
+            .x = ALGORITHM_BTN_X + 1 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 2 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "Merge",
+        .type = SORTALGO_MERGE
     }
 };
-//     
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "Bubble"
-//     },
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "Bubble Opt"
-//     },
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "Gnome"
-//     },
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "OddEven"
-//     },
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "CocktailShaker"
-//     },
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "CocktailShaker Opt"
-//     },
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "Insertion"
-//     },
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "Selection"
-//     },
-//
-//     (AlgorithmBtn) {
-//         .bounds = (Rectangle) { .x = 100, .y = 100, .width = ALGORITHM_BTN_WIDTH, .height = ALGORITHM_BTN_HEIGHT},
-//         .name = "Merge"
-//     }
-// };
 
 void InsertionSort(int len, Block blocks[], Queue *q) {
     for (int i = 1; i < len; ++i) {

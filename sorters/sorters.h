@@ -21,11 +21,12 @@ typedef enum SortAlgo {
 typedef struct AlgorithmBtn {
     Rectangle bounds;
     const char *name;
+    SortAlgo type;
 } AlgorithmBtn;
 
 
-const int AVAILABE_ALGORITHMS = SORTALGO_NONE;
-extern AlgorithmBtn ALGORITHMS_BTNS[AVAILABE_ALGORITHMS];
+#define AVAILABLE_ALGORITHMS SORTALGO_NONE
+extern AlgorithmBtn ALGORITHMS_BTNS[AVAILABLE_ALGORITHMS];
 
 void BubbleSortVariation(int len, Block blocks[], Queue *q);
 void BubbleSort(int len, Block blocks[], Queue *q);
