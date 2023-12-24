@@ -1,10 +1,10 @@
 #ifndef SORTERS_H
 #define SORTERS_H
 
-#include "../queue/queue.h"
-#include "../block/block.h"
+#include "queue.h"
+#include "block.h"
 
-typedef enum SortAlgo {
+typedef enum SORTALGO {
     SORTALGO_BUBBLE_VARIATION,
     SORTALGO_BUBBLE,
     SORTALGO_BUBBLE_OPT,
@@ -16,12 +16,12 @@ typedef enum SortAlgo {
     SORTALGO_SELECTION,
     SORTALGO_MERGE,
     SORTALGO_NONE,
-} SortAlgo;
+} SORTALGO;
 
 typedef struct AlgorithmBtn {
     Rectangle bounds;
     const char *name;
-    SortAlgo type;
+    SORTALGO type;
 } AlgorithmBtn;
 
 

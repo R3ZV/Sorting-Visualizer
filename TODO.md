@@ -19,7 +19,8 @@
 - [X] Add a starting screen with all the keybinding
 - [ ] Add a screen with all the available sorting algorithms
 - [ ] Add Raylib locally
-- [ ] Create better buttons
+- [X] Create better buttons
+- [ ] Progressively update the blocks to green and add sound
 
 or a CLI)
 ### BUGS
