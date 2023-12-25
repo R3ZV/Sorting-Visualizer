@@ -133,16 +133,15 @@ AlgorithmBtn ALGORITHMS_BTNS[AVAILABLE_ALGORITHMS] = {
 
 void InsertionSort(int len, Block blocks[], Queue *q) {
     for (int i = 1; i < len; ++i) {
-        Block a = blocks[i];
-        int j = i - 1;
-        for (; j >= 0 && a.height < blocks[j].height ; --j) {
-            BlockCheck p = { .first = j, .second = j + 1, .type = BLOCK_TYPE_REMAP};
+        for (int j = i - 1; j >= 0; --j) {
+            BlockCheck p = { .first = j + 1, .second = j, .type = BLOCK_TYPE_CHECK};
             Queue_push(q, p);
-            blocks[j + 1] = blocks[j];
+            if (blocks[j + 1].height < blocks[j].height) {
+                BlockCheck p = { .first = j + 1, .second = j, .type = BLOCK_TYPE_SWAP};
+                Queue_push(q, p);
+                BlockSwap(&blocks[j + 1], &blocks[j]);
+            }
         }
-        BlockCheck p = { .first = j + 1, .second = i, .type = BLOCK_TYPE_REMAP};
-        Queue_push(q, p);
-        blocks[j + 1] = a;
     }
 }
 

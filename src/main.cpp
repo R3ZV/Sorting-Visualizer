@@ -209,6 +209,12 @@ int main(void) {
             // go back to algorithm selection screen
             if (!sorting && !finishing && IsKeyPressed(KEY_R)) {
                 curr_state = GAMESTATE_SELECT;
+                BlockShuffle(BLOCK_LEN, blocks);
+                for (int i = 0; i < BLOCK_LEN; ++i) {
+                    // reset to normal if reshuffle is done after a sorting run
+                    blocks[i].color = BLUE;
+                    blocks[i].border_color = WHITE;
+                }
             }
 
             // fill the queue with the sorting events
@@ -234,8 +240,6 @@ int main(void) {
                 long long elapsed = elapsed_ns(&current_time, &starting_time);
 
                 if (Queue_is_empty(&q) || elapsed >= SORTING_SPEED * SORTING_SPEED_MULTIPLIER) {
-                    printf("Elapsed: %lld\n", elapsed);
-
                     // Update blocks
                     starting_time = current_time;
                     BlockCheck tp = Queue_top(&q);
@@ -254,6 +258,9 @@ int main(void) {
                         blocks[tp.first].color = ORANGE;
                         blocks[tp.second].color = ORANGE;
                     } else if (tp.type == BLOCK_TYPE_REMAP) {
+                        blocks[tp.first].height = aux[tp.second].height;
+                        blocks[tp.first].y = aux[tp.second].y;
+
                         blocks[tp.first].color = PINK;
                         blocks[tp.second].color = PINK;
                     } else if (tp.type == BLOCK_TYPE_INPLACE) {
@@ -297,11 +304,7 @@ int main(void) {
             ClearBackground(BLACK);
 
             EndDrawing();
-            // DebugBlocks(BLOCK_LEN, aux);
-
         }
-        // --- Sorter Controls ---
-
     }
 
     UnloadSound(SORT_SOUND);

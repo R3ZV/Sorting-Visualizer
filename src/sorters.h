@@ -1,6 +1,8 @@
 #ifndef SORTERS_H
 #define SORTERS_H
 
+#include <stdbool.h>
+
 #include "queue.h"
 #include "block.h"
 
@@ -38,5 +40,6 @@ void CocktailShakerSortOpt(int len, Block blocks[], Queue *q);
 void InsertionSort(int len, Block blocks[], Queue *q);
 void SelectionSort(int len, Block blocks[], Queue *q);
 void MergeSort(int left, int right, Block blocks[], Queue *q);
+bool IsSorted(int len, Block blocks[]);
 
 #endif // SORTERS_H

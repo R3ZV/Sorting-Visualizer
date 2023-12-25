@@ -41,6 +41,15 @@ void DebugBlocks(int len , Block blocks[]){
     }
 }
 
+bool IsSorted(int len, Block blocks[]) {
+    for (int i = 0; i < len; ++i) {
+        if (blocks[i].id != i) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void InitBlocks(int len, Block blocks[], const int WIN_HEIGHT) {
     for (int i = 0; i < len; ++i) {
         int x = i * BLOCK_WIDTH;
