@@ -59,8 +59,8 @@ void InitBlocks(int len, Block blocks[], const int WIN_HEIGHT) {
         blocks[i].y = y;
         blocks[i].width = BLOCK_WIDTH;
         blocks[i].height = (i + 1) * HEIGHT_MULTIPLIER;
-        blocks[i].color = BLUE;
-        blocks[i].border_color = WHITE;
+        blocks[i].color = BLOCK_INIT_COLOR;
+        blocks[i].border_color = BLOCK_INIT_BORDER_COLOR;
         blocks[i].id = i;
     }
 }

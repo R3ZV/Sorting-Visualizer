@@ -125,8 +125,8 @@ int main(void) {
     const int SORTING_SPEED_MULTIPLIER = 13;
 
     InitAudioDevice();
-    const Sound SORT_SOUND = LoadSound("./resources/tone.wav");
-    SetSoundVolume(SORT_SOUND, 0.5);
+    const Sound SORT_SOUND = LoadSound("./resources/sound.wav");
+    SetSoundVolume(SORT_SOUND, 0.8);
 
     Block blocks[BLOCK_LEN];
     Block aux[BLOCK_LEN];
@@ -193,8 +193,8 @@ int main(void) {
                 BlockShuffle(BLOCK_LEN, blocks);
                 for (int i = 0; i < BLOCK_LEN; ++i) {
                     // reset to normal if reshuffle is done after a sorting run
-                    blocks[i].color = BLUE;
-                    blocks[i].border_color = WHITE;
+                    blocks[i].color = BLOCK_INIT_COLOR;
+                    blocks[i].border_color = BLOCK_INIT_BORDER_COLOR;
                 }
             }
 
@@ -212,8 +212,8 @@ int main(void) {
                 BlockShuffle(BLOCK_LEN, blocks);
                 for (int i = 0; i < BLOCK_LEN; ++i) {
                     // reset to normal if reshuffle is done after a sorting run
-                    blocks[i].color = BLUE;
-                    blocks[i].border_color = WHITE;
+                    blocks[i].color = BLOCK_INIT_COLOR;
+                    blocks[i].border_color = BLOCK_INIT_BORDER_COLOR;
                 }
             }
 
@@ -229,8 +229,8 @@ int main(void) {
             // Reset the blocks after a performed action
             // if that action wasn't INPLACE
             if (last.type != BLOCK_TYPE_INPLACE) {
-                blocks[last.first].color = BLUE;
-                blocks[last.second].color = BLUE;
+                blocks[last.first].color = BLOCK_INIT_COLOR;
+                blocks[last.second].color = BLOCK_INIT_COLOR;
             }
 
             if (sorting || finishing) {

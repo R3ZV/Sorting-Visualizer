@@ -6,6 +6,9 @@
 #define BLOCK_WIDTH 16
 #define HEIGHT_MULTIPLIER 9
 
+#define BLOCK_INIT_COLOR BLUE
+#define BLOCK_INIT_BORDER_COLOR WHITE
+
 typedef struct _Block {
     int x, y;
     int height;

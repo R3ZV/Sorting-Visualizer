@@ -114,4 +114,4 @@ make
 # References
 [Sorting Algorithms](https://en.wikipedia.org/wiki/Sorting_algorithm)
 
-Sound from [here](https://sfxr.me/).
+Sound created with [ChipTone](https://sfbgames.itch.io/chiptone)
