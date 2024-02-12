@@ -143,12 +143,17 @@ int main(void) {
 
     GameState curr_state = GAMESTATE_INFO;
     SORTALGO selected_algo = SORTALGO_BUBBLE;
+    uint selected_algo_id = 0;
 
     Vector2 mouse_point = { 0.0f, 0.0f };
     Rectangle next_btn = {WIN_WIDTH / 2.0 - 50, WIN_HEIGHT - 100, 100, 50};
     char curr_selected_algo[20];
+    bool algorithm_confirmed = false;
     while (!WindowShouldClose()) {
         if (curr_state == GAMESTATE_INFO) {
+            if (IsKeyPressed(KEY_ENTER)) {
+                curr_state = GAMESTATE_SELECT;
+            }
             mouse_point = GetMousePosition();
             if (CheckCollisionPointRec(mouse_point, next_btn)) {
                 if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
@@ -164,23 +169,43 @@ int main(void) {
 
             EndDrawing();
         } else if (curr_state == GAMESTATE_SELECT) {
-
             mouse_point = GetMousePosition();
             for (int i = 0; i < AVAILABLE_ALGORITHMS; ++i) {
                 if (CheckCollisionPointRec(mouse_point, ALGORITHMS_BTNS[i].bounds)) {
+                    selected_algo_id = i;
+
                     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                        selected_algo = ALGORITHMS_BTNS[i].type;
-                        strcpy(curr_selected_algo, ALGORITHMS_BTNS[i].name);
-                        curr_state = GAMESTATE_SORTER;
+                        algorithm_confirmed = true;
                     }
                 }
+            }
+            if (IsKeyPressed(KEY_ENTER)) {
+                algorithm_confirmed = true;
+            }
+
+            // VIM-like movement
+            if (IsKeyPressed(KEY_H) && selected_algo_id - 1 >= 0) {
+                selected_algo_id--;
+            }
+            if (IsKeyPressed(KEY_L) && selected_algo_id + 1 < AVAILABLE_ALGORITHMS) {
+                selected_algo_id++;
             }
 
             BeginDrawing();
 
+            if (algorithm_confirmed) {
+                selected_algo = ALGORITHMS_BTNS[selected_algo_id].type;
+                strcpy(curr_selected_algo, ALGORITHMS_BTNS[selected_algo_id].name);
+                curr_state = GAMESTATE_SORTER;
+            }
+
             DrawText("Select a sorting algorithm:", 100, 100, 40, WHITE);
             for (int i = 0; i < AVAILABLE_ALGORITHMS; ++i) {
-                CreateButton(ALGORITHMS_BTNS[i].bounds, ALGORITHMS_BTNS[i].name, 24, WHITE, BLUE);
+                if (i != selected_algo_id) {
+                    CreateButton(ALGORITHMS_BTNS[i].bounds, ALGORITHMS_BTNS[i].name, 24, WHITE, BLUE);
+                } else {
+                    CreateButton(ALGORITHMS_BTNS[i].bounds, ALGORITHMS_BTNS[i].name, 24, WHITE, RED);
+                }
             }
 
             ClearBackground(BLACK);
@@ -304,6 +329,10 @@ int main(void) {
             ClearBackground(BLACK);
 
             EndDrawing();
+
+            if (IsKeyPressed(KEY_ESCAPE)) {
+                break;
+            }
         }
     }
 
