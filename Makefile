@@ -1,8 +1,8 @@
-CC := g++
+CC := clang
 CFLAGS := -Wall -Wextra
 LDFLAGS := -lraylib
-INCLUDES := -I/usr/local/include
-LIBRARIES := -L/usr/local/lib
+INCLUDES := -I/usr/local/raylib/include
+LIBRARIES := -L/usr/local/raylib/lib
 
 SRC_DIR := src
 BUILD_DIR := build

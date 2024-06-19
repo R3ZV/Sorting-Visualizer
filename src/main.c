@@ -316,7 +316,6 @@ int main(void) {
                 }
             }
 
-            // Draws the FPS, SortingSpeed and the blocks
             BeginDrawing();
 
             DrawFPS(10, 10);
