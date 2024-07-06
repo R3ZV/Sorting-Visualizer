@@ -25,8 +25,7 @@ void DrawSortingInfo(int x, int y, int speed, char * algorithm) {
 void BlockShuffle(int len, Block blocks[]) {
     for (int i = len - 1; i > 0; i--) {
         int j = rand() % (i + 1);
-        BlockSwap(&blocks[i], &blocks[j]);
-    }
+        BlockSwap(&blocks[i], &blocks[j]); }
 }
 
 void init(int len, Block blocks[]) {
@@ -118,10 +117,10 @@ int main(void) {
     const int BLOCK_LEN = WIN_WIDTH / BLOCK_WIDTH;
 
     // Nanoseconds
-    const int BASE_SORTING_SPEED = 55'000;
+    const int BASE_SORTING_SPEED = 55000;
     const int BASE_SORTING_SPEED_MULTIPLIER = 18;
 
-    int SORTING_SPEED = 550'000;
+    int SORTING_SPEED = 550000;
     const int SORTING_SPEED_MULTIPLIER = 13;
 
     InitAudioDevice();
@@ -143,7 +142,7 @@ int main(void) {
 
     GameState curr_state = GAMESTATE_INFO;
     SORTALGO selected_algo = SORTALGO_BUBBLE;
-    uint selected_algo_id = 0;
+    int selected_algo_id = 0;
 
     Vector2 mouse_point = { 0.0f, 0.0f };
     Rectangle next_btn = {WIN_WIDTH / 2.0 - 50, WIN_HEIGHT - 100, 100, 50};

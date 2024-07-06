@@ -20,15 +20,7 @@ void BlockSwap(Block *x, Block *y) {
 
 void BlockDraw(Block block) {
     DrawRectangle(block.x, block.y, block.width, block.height, block.color);
-
-    // Borders
-    int x1 = block.x, y1 = block.y + block.height;
-    DrawLine(block.x, block.y, x1, y1, block.border_color);
-    int x2 = block.x + block.width, y2 = y1;
-    DrawLine(x1, y1, x2, y2, block.border_color);
-    int x3 = x2, y3 = y2 - block.height;
-    DrawLine(x2, y2, x3, y3, block.border_color);
-    DrawLine(x3, y3, block.x, block.y, block.border_color);
+    DrawRectangleLines(block.x, block.y, block.width, block.height, block.border_color);
 }
 
 void DebugBlock(Block b) {

@@ -128,6 +128,17 @@ AlgorithmBtn ALGORITHMS_BTNS[AVAILABLE_ALGORITHMS] = {
         },
         .name = "Merge",
         .type = SORTALGO_MERGE
+    },
+    (AlgorithmBtn) {
+        .bounds = (Rectangle) {
+            // ROW 3 COL 3
+            .x = ALGORITHM_BTN_X + 2 * (ALGORITHM_BTN_WIDTH + ALGORITHM_BTN_XGAP),
+            .y = ALGORITHM_BTN_Y + 2 * (ALGORITHM_BTN_HEIGHT + ALGORITHM_BTN_YGAP),
+            .width = ALGORITHM_BTN_WIDTH,
+            .height = ALGORITHM_BTN_HEIGHT
+        },
+        .name = "Quick",
+        .type = SORTALGO_QUICK
     }
 };
 
@@ -329,3 +340,6 @@ void MergeSort(int left, int right, Block blocks[], Queue *q) {
     // TODO
 }
 
+void Quick(int left, int right, Block blocks[], Queue *q) {
+    // TODO
+}

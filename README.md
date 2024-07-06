@@ -18,12 +18,12 @@ The program allows you to choose from a series of sorting algorithms
 </details>
 
 <details>
-    <summary>Odd-Even Sort</summary>
+    <summary>Gnome Sort</summary>
     Add video
 </details>
 
 <details>
-    <summary>Gnome Sort</summary>
+    <summary>Odd-Even Sort</summary>
     Add video
 </details>
 
@@ -48,26 +48,6 @@ The program allows you to choose from a series of sorting algorithms
 </details>
 
 <details>
-    <summary>Cube Sort</summary>
-    TODO
-</details>
-
-<details>
-    <summary>Shell Sort</summary>
-    TODO
-</details>
-
-<details>
-    <summary>Pancake Sort</summary>
-    TODO
-</details>
-
-<details>
-    <summary>Cycle Sort</summary>
-    TODO
-</details>
-
-<details>
     <summary>Merge Sort</summary>
     TODO
 </details>
@@ -77,23 +57,12 @@ The program allows you to choose from a series of sorting algorithms
     TODO
 </details>
 
-<details>
-    <summary>Heap Sort</summary>
-    TODO
-</details>
-
-<details>
-    <summary>Intro Sort</summary>
-    TODO
-</details>
-
 After choosing a sorting algorithm the program will shuffle the values using the
 Fisher-Yates algorithm.
 
 # Requirements
 - Git / GitHub CLI
-- GCC
-- Make
+- Zig
 
 To run it locally:
 ```
@@ -108,7 +77,10 @@ gh repo clone R3ZV/Sorting-Visualizer
 
 cd Sorting-Visualizer
 
-make
+# If you are on NixOS run
+nix-shell shell.nix
+
+zig build run
 ```
 
 # References

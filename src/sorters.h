@@ -17,6 +17,7 @@ typedef enum SORTALGO {
     SORTALGO_INSERTION,
     SORTALGO_SELECTION,
     SORTALGO_MERGE,
+    SORTALGO_QUICK,
     SORTALGO_NONE,
 } SORTALGO;
 
@@ -40,6 +41,7 @@ void CocktailShakerSortOpt(int len, Block blocks[], Queue *q);
 void InsertionSort(int len, Block blocks[], Queue *q);
 void SelectionSort(int len, Block blocks[], Queue *q);
 void MergeSort(int left, int right, Block blocks[], Queue *q);
+void QuickSort(int left, int right, Block blocks[], Queue *q);
 bool IsSorted(int len, Block blocks[]);
 
 #endif // SORTERS_H
